@@ -1,6 +1,6 @@
 import { Wifi, Wind, Tv, Refrigerator, Droplets, Waves, ParkingCircle, Coffee, HelpCircle } from "lucide-react";
 
-const ICON_MAP: Record<string, React.ComponentType<{ size?: number; className?: string }>> = {
+const ICON_MAP: Record<string, React.ElementType>={ 
   wifi: Wifi,
   ac: Wind,
   tv: Tv,
