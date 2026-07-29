@@ -2,7 +2,7 @@ import { createServerClient, type CookieOptions } from "@supabase/ssr";
 import { cookies } from "next/headers";
 import type { Database } from "@/types/database";
 import { createClient as createSupabaseJsClient } from "@supabase/supabase-js";
-import { createClient as createSupabaseJsClient } from "@supabase/supabase-js";
+
 // ใช้ใน Server Components, Route Handlers, Server Actions เท่านั้น
 // จัดการ session ผ่าน cookies เพื่อให้รู้ว่าแอดมินคนไหน login อยู่ (สำหรับตรวจสอบ RLS is_admin())
 export function createClient() {
