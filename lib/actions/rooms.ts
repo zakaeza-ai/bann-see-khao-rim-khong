@@ -121,3 +121,35 @@ export async function setCoverImageAction(imageId: string, roomId: string) {
   revalidatePath(`/admin/rooms/${roomId}/edit`);
   revalidatePath("/rooms");
 }
+/** อัปโหลดวิดีโอห้องพัก 1 คลิป แทนที่วิดีโอเดิม (ถ้ามี) */
+export async function uploadRoomVideoAction(roomId: string, formData: FormData) {
+  const supabase = createClient();
+  const file = formData.get("video") as File;
+  if (!file || file.size === 0) return { error: "กรุณาเลือกไฟล์วิดีโอ" };
+
+  const ext = file.name.split(".").pop();
+  const path = `room-videos/${roomId}-${Date.now()}.${ext}`;
+
+  const { error: uploadError } = await supabase.storage.from("room-images").upload(path, file, {
+    cacheControl: "3600",
+    upsert: false,
+  });
+  if (uploadError) return { error: "อัปโหลดไม่สำเร็จ: " + uploadError.message };
+
+  const { data: urlData } = supabase.storage.from("room-images").getPublicUrl(path);
+  await supabase.from("rooms").update({ video_url: urlData.publicUrl }).eq("id", roomId);
+
+  revalidatePath(`/admin/rooms/${roomId}/edit`);
+  revalidatePath("/rooms");
+  revalidatePath("/");
+  return {};
+}
+
+/** ลบวิดีโอห้องพัก (กลับไปแสดงรูปภาพตามปกติ) */
+export async function removeRoomVideoAction(roomId: string) {
+  const supabase = createClient();
+  await supabase.from("rooms").update({ video_url: null }).eq("id", roomId);
+  revalidatePath(`/admin/rooms/${roomId}/edit`);
+  revalidatePath("/rooms");
+  revalidatePath("/");
+}

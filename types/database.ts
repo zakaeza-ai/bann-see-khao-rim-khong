@@ -19,7 +19,7 @@ export interface Room {
   price_normal: number;
   price_weekend: number;
   price_festival: number;
-  status: RoomStatus;
+  status: RoomStatus; video_url: string| null;
   sort_order: number;
   created_at: string;
   updated_at: string;

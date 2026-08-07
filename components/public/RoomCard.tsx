@@ -14,16 +14,17 @@ export function RoomCard({ room, index = 0 }: { room: RoomWithDetails; index?: n
       className="resort-card overflow-hidden group animate-fade-up"
       style={{ animationDelay: `${index * 80}ms` }}
     >
-      <div className="relative h-52 w-full overflow-hidden bg-river-50">
-        {cover ? (
-          <Image
-            src={cover.image_url}
-            alt={room.name}
-            fill
-            className="object-cover group-hover:scale-105 transition-transform duration-500"
-            sizes="(max-width: 768px) 100vw, 33vw"
+<div className="relative h-52 w-full overflow-hidden bg-river-50">
+        {room.video_url ? (
+          <video
+            src={room.video_url}
+            autoPlay
+            muted
+            loop
+            playsInline
+            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
           />
-        ) : (
+        ) : cover ? (
           <div className="h-full w-full flex items-center justify-center text-river-300">ไม่มีรูปภาพ</div>
         )}
         <Badge variant="gold" className="absolute top-3 left-3 shadow-sm">

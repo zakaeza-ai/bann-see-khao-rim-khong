@@ -1,8 +1,9 @@
+import { RoomVideoManager } from "@/components/admin/RoomVideoManager";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { RoomForm } from "@/components/admin/RoomForm";
 import { RoomImageManager } from "@/components/admin/RoomImageManager";
-
+import { RoomVideoManager } from "@/components/admin/RoomVideoManager";
 export default async function EditRoomPage({ params }: { params: { id: string } }) {
   const supabase = createClient();
 
@@ -27,6 +28,7 @@ export default async function EditRoomPage({ params }: { params: { id: string } 
       </div>
 
       <RoomImageManager roomId={room.id} images={images ?? []} />
+      <RoomVideoManager roomId={room.id} videoUrl={room.video_url} />
     </div>
   );
 }
