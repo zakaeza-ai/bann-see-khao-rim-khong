@@ -153,3 +153,10 @@ export async function removeRoomVideoAction(roomId: string) {
   revalidatePath("/rooms");
   revalidatePath("/");
 }
+export async function updateRoomOrder(orderedIds: string[]) {
+  const supabase = createClient();
+  const updates = orderedIds.map((id, index) =>
+    supabase.from("rooms").update({ sort_order: index }).eq("id", id)
+  );
+  await Promise.all(updates);
+}
