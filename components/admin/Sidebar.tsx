@@ -2,16 +2,17 @@
 
 import Link from "next/link";
 import { usePathname } from "next/navigation";
-import { BedDouble, Tag, Percent, CalendarCheck, BarChart3, LogOut,MapPin } from "lucide-react";
+import { BedDouble, Tag, Percent, CalendarCheck, BarChart3, LogOut, MapPin, Video } from "lucide-react";
 import { signOutAction } from "@/lib/actions/auth";
 import { cn } from "@/lib/utils/cn";
 
 const NAV = [
   { href: "/admin/bookings", label: "จัดการการจอง", icon: CalendarCheck },
   { href: "/admin/rooms", label: "จัดการห้องพัก", icon: BedDouble },
+  { href: "/admin/hero-videos", label: "วิดีโอหน้าแรก", icon: Video },
   { href: "/admin/pricing", label: "จัดการราคา", icon: Tag },
   { href: "/admin/promotions", label: "จัดการโปรโมชั่น", icon: Percent },
- { href: "/admin/attractions", label: "จัดการสถานที่ท่องเที่ยว", icon: MapPin },
+  { href: "/admin/attractions", label: "จัดการสถานที่ท่องเที่ยว", icon: MapPin },
   { href: "/admin/reports", label: "รายงาน", icon: BarChart3 },
 ];
 
