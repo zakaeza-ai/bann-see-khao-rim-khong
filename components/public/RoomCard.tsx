@@ -6,7 +6,7 @@ import { AmenityIcon } from "./AmenityIcon";
 import { formatTHB } from "@/lib/utils/pricing";
 import type { RoomWithDetails } from "@/types/database";
 
-export function RoomCard({ room, index = 0 }: { room: RoomWithDetails; index?: number }) {
+export function RoomCard({ room, index = 0, isAdmin = false }: { room: RoomWithDetails; index?: number; isAdmin?: boolean }) {
   const cover = room.room_images.find((i) => i.is_cover) ?? room.room_images[0];
 
   return (
@@ -70,12 +70,21 @@ export function RoomCard({ room, index = 0 }: { room: RoomWithDetails; index?: n
             <p className="text-xs text-river-500">เริ่มต้น</p>
             <p className="text-xl font-bold text-gold-600">{formatTHB(room.price_normal)}<span className="text-xs font-normal text-river-500"> /คืน</span></p>
           </div>
-          <Link
-            href={`/rooms/${room.id}`}
-            className="text-sm font-semibold text-river-700 dark:text-river-300 hover:text-gold-600 transition-colors"
-          >
-            ดูรายละเอียด →
-          </Link>
+          {isAdmin ? (
+  <Link
+    href={`/admin/rooms/${room.id}/edit`}
+    className="text-sm font-semibold text-river-700 dark:text-river-300"
+  >
+    แก้ไข →
+  </Link>
+) : (
+  <Link
+    href={`/rooms/${room.id}`}
+    className="text-sm font-semibold text-river-700 dark:text-river-300"
+  >
+    ดูรายละเอียด →
+  </Link>
+)}
         </div>
       </div>
     </div>
