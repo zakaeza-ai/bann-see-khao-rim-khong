@@ -1,7 +1,7 @@
 import { getAvailableRooms } from "@/lib/data/rooms";
 import { RoomCard } from "@/components/public/RoomCard";
 import { OverallAvailabilityCalendar } from "@/components/public/OverallAvailabilityCalendar";
-
+import { RoomReorderList } from "@/components/admin/RoomReorderList";
 export const metadata = { title: "ห้องพักทั้งหมด | บ้านสีขาวริมโขง ธาตุพนม" };
 export const revalidate = 60;
 
@@ -30,11 +30,7 @@ export default async function RoomsPage({
       {rooms.length === 0 ? (
         <p className="text-center text-river-500 py-20">ขณะนี้ยังไม่มีห้องพักเปิดให้บริการ</p>
       ) : (
-        <div className="grid gap-6 sm:grid-cols-2 lg:grid-cols-3">
-          {rooms.map((room, i) => (
-            <RoomCard key={room.id} room={room} index={i} isAdmin />
-          ))}
-        </div>
+        <RoomReorderList initialRooms={rooms} />
       )}
     </section>
   );
