@@ -15,22 +15,31 @@ export function RoomCard({ room, index = 0 }: { room: RoomWithDetails; index?: n
       style={{ animationDelay: `${index * 80}ms` }}
     >
 <div className="relative h-52 w-full overflow-hidden bg-river-50">
-        {room.video_url ? (
-          <video
-            src={room.video_url}
-            autoPlay
-            muted
-            loop
-            playsInline
-            className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500"
-          />
-        ) : cover ? (
-          <div className="h-full w-full flex items-center justify-center text-river-300">ไม่มีรูปภาพ</div>
-        )}
-        <Badge variant="gold" className="absolute top-3 left-3 shadow-sm">
-          {room.type}
-        </Badge>
-      </div>
+  {room.video_url ? (
+    <video
+      src={room.video_url}
+      autoPlay
+      muted
+      loop
+      playsInline
+      className="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+    />
+  ) : cover ? (
+    <Image
+      src={cover.image_url}
+      alt={room.type}
+      fill
+      className="object-cover group-hover:scale-105 transition-transform duration-300"
+    />
+  ) : (
+    <div className="h-full w-full flex items-center justify-center text-river-400">
+      ไม่มีรูปภาพ
+    </div>
+  )}
+  <Badge variant="gold" className="absolute top-3 left-3 shadow-sm">
+    {room.type}
+  </Badge>
+</div>
 
       <div className="p-5 space-y-3">
         <h3 className="font-bold text-lg text-river-900 dark:text-river-100">{room.name}</h3>

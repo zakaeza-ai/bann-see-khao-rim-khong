@@ -1,4 +1,3 @@
-import { RoomVideoManager } from "@/components/admin/RoomVideoManager";
 import { notFound } from "next/navigation";
 import { createClient } from "@/lib/supabase/server";
 import { RoomForm } from "@/components/admin/RoomForm";
