@@ -4,16 +4,20 @@ import { RoomCard } from "@/components/public/RoomCard";
 import { PromotionCard } from "@/components/public/PromotionCard";
 import { getAvailableRooms } from "@/lib/data/rooms";
 import { getActivePromotions } from "@/lib/data/content";
-
+import { HeroVideoSection } from "@/components/public/HeroVideoSection";
+import { getHeroVideos } from "@/lib/actions/hero-videos";
 export const revalidate = 60;
 
 export default async function HomePage() {
   const [rooms, promotions] = await Promise.all([getAvailableRooms(), getActivePromotions()]);
   const featuredRooms = rooms.slice(0, 3);
   const featuredPromotions = promotions.slice(0, 2);
+  const heroVideos = await getHeroVideos();
+    return (
+    <>
+      <HeroVideoSection videos={heroVideos} />
 
-  return (
-    <section className="relative flex flex-col items-center justify-center text-center px-4 py-24 md:py-36 bg-gradient-to-b from-river-50 to-white dark:from-[#0b1520] dark:to-[#0b1520] overflow-hidden">
+      <section className="relative flex flex-col items-center justify-center...">
       <span className="inline-block mb-4 px-4 py-1 rounded-full bg-gold-100 text-gold-700 text-xs font-semibold tracking-wide animate-fade-up">
         ที่พักวิวแม่น้ำโขง ใกล้พระธาตุพนม
       </span>
@@ -67,6 +71,7 @@ export default async function HomePage() {
           </div>
         </div>
       )}
-    </section>
+   </section>
+    </>
   );
 }
