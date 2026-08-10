@@ -1,6 +1,10 @@
-import { Wifi, Wind, Tv, Refrigerator, Droplets, Waves, ParkingCircle, Coffee, HelpCircle } from "lucide-react";
+import {
+  Wifi, Wind, Tv, Refrigerator, Droplets, Waves, ParkingCircle, Coffee,
+  Fan, PawPrint, Cookie, Eye, EyeOff, AppWindow, Ban, BedDouble,
+  Sparkles, HelpCircle,
+} from "lucide-react";
 
-const ICON_MAP: Record<string, React.ElementType>={ 
+const ICON_MAP: Record<string, React.ElementType> = {
   wifi: Wifi,
   ac: Wind,
   tv: Tv,
@@ -9,6 +13,18 @@ const ICON_MAP: Record<string, React.ElementType>={
   "balcony-river": Waves,
   parking: ParkingCircle,
   breakfast: Coffee,
+  "river-view": Eye,
+  "private-shower": Droplets,
+  hairdryer: Fan,
+  "sofa-bed": BedDouble,
+  kettle: Coffee,
+  "no-view": EyeOff,
+  "no-pets": PawPrint,
+  "no-window": AppWindow,
+  "coffee-snack": Cookie,
+  toiletries: Sparkles,
+  "drinking-water": Droplets,
+  "no-breakfast": Ban,
 };
 
 export function AmenityIcon({
