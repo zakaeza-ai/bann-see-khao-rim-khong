@@ -41,12 +41,14 @@ export default async function HomePage({
       </p>
       <div className="mt-8 flex flex-col sm:flex-row gap-3 animate-fade-up">
         <LineBookingButton />
-        
-        href="/rooms"
+
+       <a>       
+          href="/rooms"
           className="inline-flex items-center justify-center rounded-full border-2 border-river-300 dark:border-river-700 px-6 py-3 font-semibold text-river-800 dark:text-river-200 hover:bg-river-50 dark:hover:bg-[#101b28] transition-colors"
         >
           ดูห้องพักทั้งหมด
         </a>
+       
       </div>
 
       {/* Overall Availability Calendar */}
