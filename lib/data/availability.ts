@@ -7,7 +7,6 @@ export interface DayAvailability {
   totalRooms: number;
   availableRooms: number;
 }
-
 export async function getMonthlyAvailability(year: number, month: number): Promise<DayAvailability[]> {
   const supabase = createPublicClient();
   const bookingAppSupabase = createBookingAppClient();
