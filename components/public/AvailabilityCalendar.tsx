@@ -9,7 +9,7 @@ import { LineBookingButton } from "./LineBookingButton";
 import { buildBookingMessage } from "@/lib/utils/line";
 import { getTotalPrice, formatTHB } from "@/lib/utils/pricing";
 import type { Room, PricePeriod } from "@/types/database";
-
+import { getBookedDateRanges } from "@/lib/data/bookings"; // เพิ่ม import นี้
 interface BookedRange {
   check_in: string;
   check_out: string;
@@ -27,9 +27,9 @@ export function AvailabilityCalendar({ room }: { room: Room }) {
       const supabase = createClient();
 
       // ดึงช่วงวันที่ถูกจองแล้วของห้องนี้ (จาก view ที่ไม่เปิดเผยข้อมูลลูกค้า) เพื่อเช็คห้องว่างอัตโนมัติ
-      const [{ data: booked }, { data: periods }] = await Promise.all([
-        supabase.from("public_booked_dates").select("check_in, check_out").eq("room_id", room.id),
-        supabase
+     const [booked, { data: periods }] = await Promise.all([
+      getBookedDateRanges(room.id), // ← เปลี่ยนมาเรียกฟังก์ชันนี้ ดึงจาก booking-app-supabase แทน
+      supabase
           .from("price_periods")
           .select("*")
           .or(`room_id.eq.${room.id},room_id.is.null`),
