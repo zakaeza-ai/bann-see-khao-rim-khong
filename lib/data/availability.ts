@@ -1,14 +1,16 @@
 import { createPublicClient } from "@/lib/supabase/public";
+import { createBookingAppClient } from "@/lib/supabase/booking-app";
+import { ROOM_ID_MAP } from "@/lib/data/room-mapping";
 
 export interface DayAvailability {
-  date: string; // YYYY-MM-DD
+  date: string;
   totalRooms: number;
   availableRooms: number;
 }
 
-/** คำนวณจำนวนห้องว่างรายวันตลอดเดือนที่กำหนด สำหรับแสดงภาพรวมให้ลูกค้าดู */
 export async function getMonthlyAvailability(year: number, month: number): Promise<DayAvailability[]> {
   const supabase = createPublicClient();
+  const bookingAppSupabase = createBookingAppClient();
 
   const startDate = new Date(year, month - 1, 1);
   const endDate = new Date(year, month, 0);
@@ -17,8 +19,8 @@ export async function getMonthlyAvailability(year: number, month: number): Promi
 
   const [{ data: rooms }, { data: bookedDates }] = await Promise.all([
     supabase.from("rooms").select("id").eq("status", "available"),
-    supabase
-      .from("public_booked_dates")
+    bookingAppSupabase
+      .from("public_booked_dates_saikhao")
       .select("room_id, check_in, check_out")
       .lte("check_in", endStr)
       .gte("check_out", startStr),
@@ -26,6 +28,9 @@ export async function getMonthlyAvailability(year: number, month: number): Promi
 
   const totalRooms = rooms?.length ?? 0;
   const daysInMonth = endDate.getDate();
+  const bookingAppToWebRoomId = new Map(
+    Object.entries(ROOM_ID_MAP).map(([webId, bookingAppId]) => [bookingAppId, webId])
+  );
 
   const result: DayAvailability[] = [];
   for (let d = 1; d <= daysInMonth; d++) {
@@ -33,7 +38,8 @@ export async function getMonthlyAvailability(year: number, month: number): Promi
     const occupiedRoomIds = new Set(
       (bookedDates ?? [])
         .filter((b: any) => dateStr >= b.check_in && dateStr < b.check_out)
-        .map((b: any) => b.room_id)
+        .map((b: any) => bookingAppToWebRoomId.get(b.room_id))
+        .filter(Boolean)
     );
     result.push({
       date: dateStr,
