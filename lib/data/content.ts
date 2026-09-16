@@ -86,6 +86,4 @@ export async function getTripPlans() {
   if (error || !data) return [];
   return data;
 }
-    ),
-  }));
-}
+
