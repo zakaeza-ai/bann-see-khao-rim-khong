@@ -17,7 +17,7 @@ export async function signInAction(
     return { error: "อีเมลหรือรหัสผ่านไม่ถูกต้อง" };
   }
 
-  redirect("/admin/bookings");
+  redirect("/admin/rooms");
 }
 
 export async function signOutAction() {
