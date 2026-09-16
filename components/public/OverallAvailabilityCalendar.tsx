@@ -27,19 +27,21 @@ export async function OverallAvailabilityCalendar({
   return (
     <div className="resort-card p-5 max-w-3xl mx-auto mb-10 animate-fade-up">
       <div className="flex items-center justify-between mb-4">
-<Link
-  href={`/?year=${prevMonth.y}&month=${prevMonth.m}`}
-  ...
->
-  ← เดือนก่อน
-</Link>
-...
-<Link
-  href={`/?year=${nextMonth.y}&month=${nextMonth.m}`}
-  ...
->
-  เดือนถัดไป →
-</Link>
+        <Link
+          href={`/?year=${prevMonth.y}&month=${prevMonth.m}`}
+          className="px-3 py-1.5 rounded-full text-sm text-river-600 hover:bg-river-50 dark:hover:bg-[#16273a]"
+        >
+          ← เดือนก่อน
+        </Link>
+        <h2 className="font-semibold text-river-900 dark:text-river-100">
+          ห้องว่างเดือน {THAI_MONTHS[month - 1]} {year + 543}
+        </h2>
+        <Link
+          href={`/?year=${nextMonth.y}&month=${nextMonth.m}`}
+          className="px-3 py-1.5 rounded-full text-sm text-river-600 hover:bg-river-50 dark:hover:bg-[#16273a]"
+        >
+          เดือนถัดไป →
+        </Link>
       </div>
 
       <div className="grid grid-cols-7 gap-1 text-center text-xs text-river-500 mb-2">
