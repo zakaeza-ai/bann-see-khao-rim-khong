@@ -12,6 +12,7 @@ const NAV = [
   { href: "/admin/pricing", label: "จัดการราคา", icon: Tag },
   { href: "/admin/promotions", label: "จัดการโปรโมชั่น", icon: Percent },
   { href: "/admin/attractions", label: "จัดการสถานที่ท่องเที่ยว", icon: MapPin },
+  { href: "/admin/trip-plans", label: "วางแผนการท่องเที่ยว", icon: MapPin },    
   { href: "/admin/reports", label: "รายงาน", icon: BarChart3 },
 ];
 
