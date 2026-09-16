@@ -1,73 +1,59 @@
 "use client";
 
 import { useState, useRef } from "react";
-import { Play } from "lucide-react";
+import { Volume2, VolumeX } from "lucide-react";
 import type { HeroVideo } from "@/lib/actions/hero-videos";
 
 export function HeroVideoSection({ videos }: { videos: HeroVideo[] }) {
   const [activeSlot, setActiveSlot] = useState(1);
-  const [isPlaying, setIsPlaying] = useState(false);
+  const [muted, setMuted] = useState(true);
   const videoRef = useRef<HTMLVideoElement>(null);
 
   const active = videos.find((v) => v.slot === activeSlot);
 
-  function handlePlay() {
-    setIsPlaying(true);
-    // รอ DOM อัปเดตแล้วค่อยสั่งเล่น เพื่อให้ได้เสียง (ต้องเกิดจาก user gesture)
-    requestAnimationFrame(() => {
-      videoRef.current?.play();
-    });
-  }
-
   function handleSwitch(slot: number) {
     setActiveSlot(slot);
-    setIsPlaying(false);
+  }
+
+  function toggleMute() {
+    if (videoRef.current) {
+      videoRef.current.muted = !videoRef.current.muted;
+      setMuted(videoRef.current.muted);
+    }
   }
 
   if (!active || (!active.video_url && videos.every((v) => !v.video_url))) {
-    return null; // ยังไม่มีวิดีโอเลย ไม่ต้องแสดง section นี้
+    return null;
   }
 
   return (
-    <section className="relative w-full h-[70vh] min-h-[420px] max-h-[720px] overflow-hidden bg-river-900">
+    <section className="relative w-full h-[45vh] md:h-[60vh] max-h-[560px] overflow-hidden bg-river-900">
       {active.video_url ? (
-        isPlaying ? (
-          <video
-            ref={videoRef}
-            src={active.video_url}
-            controls
-            className="w-full h-full object-cover"
-            onEnded={() => setIsPlaying(false)}
-          />
-        ) : (
-          <button
-            onClick={handlePlay}
-            className="group relative w-full h-full flex items-center justify-center"
-          >
-            {active.poster_url ? (
-              <img
-                src={active.poster_url}
-                alt={active.title}
-                className="absolute inset-0 w-full h-full object-cover"
-              />
-            ) : (
-              <div className="absolute inset-0 bg-gradient-to-br from-river-800 via-river-900 to-black" />
-            )}
-            <div className="absolute inset-0 bg-black/30 group-hover:bg-black/40 transition-colors" />
-
-            <div className="relative z-10 flex flex-col items-center gap-4 text-white">
-              <span className="flex items-center justify-center w-20 h-20 rounded-full bg-white/90 group-hover:scale-105 transition-transform">
-                <Play size={32} className="text-river-900 ml-1" fill="currentColor" />
-              </span>
-              <span className="text-lg font-semibold drop-shadow">{active.title}</span>
-            </div>
-          </button>
-        )
+        <video
+          ref={videoRef}
+          key={active.video_url}
+          src={active.video_url}
+          autoPlay
+          muted={muted}
+          loop
+          playsInline
+          poster={active.poster_url || undefined}
+          className="w-full h-full object-cover"
+        />
       ) : (
         <div className="w-full h-full flex items-center justify-center text-white/70">
           ยังไม่มีวิดีโอ
         </div>
       )}
+
+      {/* ปุ่มเปิด/ปิดเสียง */}
+      <button
+        onClick={toggleMute}
+        aria-label={muted ? "เปิดเสียง" : "ปิดเสียง"}
+        className="absolute top-4 right-4 z-20 w-10 h-10 rounded-full bg-black/40 hover:bg-black/60 flex items-center justify-center text-white transition-colors"
+      >
+        {muted ? <VolumeX size={18} /> : <Volume2 size={18} />}
+      </button>
 
       {videos.length > 1 && (
         <div className="absolute bottom-6 left-1/2 -translate-x-1/2 z-20 flex gap-2">
