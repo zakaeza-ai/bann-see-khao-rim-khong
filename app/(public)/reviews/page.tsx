@@ -8,7 +8,7 @@ export default async function TripPlansPage() {
   const plans = await getTripPlans();
 
   return (
-    <section className="max-w-6xl mx-auto px-4 md:px-8 py-12">
+    <section className="max-w-5xl mx-auto px-4 md:px-8 py-12">
       <div className="text-center mb-10">
         <h1 className="text-3xl font-bold text-river-900 dark:text-river-100">วางแผนการท่องเที่ยว</h1>
         <p className="text-river-600 dark:text-river-400 mt-2">แนะนำช่วงเวลาและตารางเที่ยวที่เหมาะกับคุณ</p>
@@ -21,13 +21,20 @@ export default async function TripPlansPage() {
             className="resort-card overflow-hidden animate-fade-up"
             style={{ animationDelay: `${i * 80}ms` }}
           >
-            <div className="relative h-44 bg-river-50">
-              {p.image_url ? (
-                <Image src={p.image_url} alt={p.title} fill className="object-cover" sizes="33vw" />
-              ) : (
-                <div className="h-full flex items-center justify-center text-river-300">ไม่มีรูปภาพ</div>
-              )}
-            </div>
+            {p.image_url ? (
+              <div className="relative w-full bg-river-50">
+                <Image
+                  src={p.image_url}
+                  alt={p.title}
+                  width={1000}
+                  height={2000}
+                  className="w-full h-auto object-contain"
+                  sizes="33vw"
+                />
+              </div>
+            ) : (
+              <div className="h-44 flex items-center justify-center text-river-300">ไม่มีรูปภาพ</div>
+            )}
             <div className="p-5 space-y-2">
               <h3 className="font-bold text-river-900 dark:text-river-100">{p.title}</h3>
               {p.description && (
