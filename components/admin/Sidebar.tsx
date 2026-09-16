@@ -7,8 +7,7 @@ import { signOutAction } from "@/lib/actions/auth";
 import { cn } from "@/lib/utils/cn";
 
 const NAV = [
-  { href: "/admin/bookings", label: "จัดการการจอง", icon: CalendarCheck },
-  { href: "/admin/rooms", label: "จัดการห้องพัก", icon: BedDouble },
+    { href: "/admin/rooms", label: "จัดการห้องพัก", icon: BedDouble },
   { href: "/admin/hero-videos", label: "วิดีโอหน้าแรก", icon: Video },
   { href: "/admin/pricing", label: "จัดการราคา", icon: Tag },
   { href: "/admin/promotions", label: "จัดการโปรโมชั่น", icon: Percent },
