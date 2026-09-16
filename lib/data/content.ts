@@ -54,21 +54,11 @@ export async function getActivePromotionPosts(): Promise<PromotionPostView[]> {
     .eq("status", "published")
     .or(`end_date.is.null,end_date.gte.${today}`)
     .order("sort_order", { ascending: true });
-  if (error) {
-  console.error("getActivePromotionPosts error:", error);
-  return [];
-}
-  export async function getTripPlans() {
-  const supabase = createPublicClient();
-  const { data, error } = await supabase
-    .from("trip_plans")
-    .select("*")
-    .order("sort_order", { ascending: true });
-
-  if (error || !data) return [];
-  return data;
-}
-if (!data) return [];
+    if (error) {
+    console.error("getActivePromotionPosts error:", error);
+    return [];
+  }
+  if (!data) return [];
 
   return data.map((p) => ({
     id: p.id,
@@ -82,6 +72,20 @@ if (!data) return [];
         media_type: m.media_type,
         url: supabase.storage.from("promotion-media").getPublicUrl(m.storage_path).data.publicUrl,
       })
+    ),
+  }));
+}
+
+export async function getTripPlans() {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("trip_plans")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
+  if (error || !data) return [];
+  return data;
+}
     ),
   }));
 }
