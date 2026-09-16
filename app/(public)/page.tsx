@@ -6,25 +6,17 @@ import { getAvailableRooms } from "@/lib/data/rooms";
 import { getActivePromotions } from "@/lib/data/content";
 import { HeroVideoSection } from "@/components/public/HeroVideoSection";
 import { getHeroVideos } from "@/lib/actions/hero-videos";
-import { OverallAvailabilityCalendar } from "@/components/public/OverallAvailabilityCalendar";
 
 export const revalidate = 60;
 
-export default async function HomePage({
-  searchParams,
-}: {
-  searchParams: { year?: string; month?: string };
-}) {
+export default async function HomePage() {
   const [rooms, promotions] = await Promise.all([getAvailableRooms(), getActivePromotions()]);
   const featuredRooms = rooms.slice(0, 3);
   const featuredPromotions = promotions.slice(0, 2);
   const heroVideos = await getHeroVideos();
 
   const now = new Date();
-  const year = searchParams.year ? parseInt(searchParams.year) : now.getFullYear();
-  const month = searchParams.month ? parseInt(searchParams.month) : now.getMonth() + 1;
-
-  return (
+    return (
     <>
       <HeroVideoSection videos={heroVideos} />
 
@@ -49,11 +41,6 @@ export default async function HomePage({
           ดูห้องพักทั้งหมด
         </a>
        
-      </div>
-
-      {/* Overall Availability Calendar */}
-      <div className="w-full mt-16">
-        <OverallAvailabilityCalendar year={year} month={month} />
       </div>
 
       {/* Featured Rooms */}
