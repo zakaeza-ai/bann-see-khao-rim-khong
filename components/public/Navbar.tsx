@@ -9,9 +9,9 @@ import { LineBookingButton } from "./LineBookingButton";
 const MENU = [
   { href: "/", label: "หน้าแรก" },
   { href: "/rooms", label: "ห้องพัก" },
-  { href: "/promotions", label: "โปรโมชั่น" },
+  { href: "/promotions", label: "เช็ควันห้องว่าง" },
   { href: "/attractions", label: "สถานที่ท่องเที่ยว" },
-  { href: "/reviews", label: "รีวิวลูกค้า" },
+  { href: "/reviews", label: "วางแผนการท่องเที่ยว" },
   { href: "/contact", label: "ติดต่อเรา" },
 ];
 
