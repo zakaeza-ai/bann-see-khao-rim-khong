@@ -58,6 +58,16 @@ export async function getActivePromotionPosts(): Promise<PromotionPostView[]> {
   console.error("getActivePromotionPosts error:", error);
   return [];
 }
+  export async function getTripPlans() {
+  const supabase = createPublicClient();
+  const { data, error } = await supabase
+    .from("trip_plans")
+    .select("*")
+    .order("sort_order", { ascending: true });
+
+  if (error || !data) return [];
+  return data;
+}
 if (!data) return [];
 
   return data.map((p) => ({
