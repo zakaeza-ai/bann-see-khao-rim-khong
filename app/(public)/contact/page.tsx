@@ -1,5 +1,5 @@
 import { Phone, MapPin, Clock } from "lucide-react";
-import { LineBookingButton } from "@/components/public/LineBookingButton";
+import { LineQrCard } from "@/components/public/LineQrCard";
 
 export const metadata = { title: "ติดต่อเรา | บ้านสีขาวริมโขง ธาตุพนม" };
 
@@ -31,13 +31,8 @@ export default function ContactPage() {
         </div>
       </div>
 
-      <div className="resort-card p-8 text-center space-y-4">
-        <h2 className="text-xl font-bold text-river-900 dark:text-river-100">จองห้องพักผ่าน LINE เท่านั้น</h2>
-        <p className="text-river-600 dark:text-river-400 text-sm max-w-md mx-auto">
-          กดปุ่มด้านล่างเพื่อแอดไลน์ แจ้งวันที่และห้องที่สนใจ ทีมงานจะตรวจสอบห้องว่างและออกใบจองให้ทันที
-        </p>
-        <LineBookingButton />
-      </div>
+      {/* QR สำหรับคนเปิดจากคอม + ปุ่มสำหรับคนเปิดจากมือถือ */}
+      <LineQrCard />
     </section>
   );
 }
