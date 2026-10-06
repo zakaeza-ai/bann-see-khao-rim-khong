@@ -2,7 +2,7 @@
 
 import Image from "next/image";
 import { MessageCircle } from "lucide-react";
-import { buildLineUrl } from "@/lib/utils/line";
+import { buildLineUrl, getLineOaId } from "@/lib/utils/line";
 
 /**
  * การ์ดแอดไลน์ — QR สำหรับคนเปิดจากคอม + ปุ่มสำหรับคนเปิดจากมือถือ
@@ -14,7 +14,7 @@ import { buildLineUrl } from "@/lib/utils/line";
  * รูป QR วางไว้ที่ public/line-qr.png (โหลดจาก LINE OA Manager > เพิ่มเพื่อน > QR code)
  */
 export function LineQrCard() {
-  const oaId = process.env.NEXT_PUBLIC_LINE_OA_ID ?? "";
+  const oaId = getLineOaId();
   const url = buildLineUrl();
 
   return (
