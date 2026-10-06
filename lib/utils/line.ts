@@ -1,19 +1,45 @@
 /**
- * LINE OA รองรับ 2 รูปแบบลิงก์:
- * 1) https://line.me/R/ti/p/@xxxxx            -> แค่แอดเพื่อน ไม่มีข้อความล่วงหน้า
- * 2) https://line.me/R/oaMessage/@xxxxx/?TEXT -> แอดเพื่อน + พิมพ์ข้อความให้อัตโนมัติ (ต้องตั้งค่า NEXT_PUBLIC_LINE_OA_ID)
+ * ลิงก์ LINE OA
  *
- * ถ้าตั้งค่า NEXT_PUBLIC_LINE_OA_ID ไว้ (เช่น "@baansikhaorimkhong") จะใช้แบบที่ 2 เพื่อความสะดวกของลูกค้า
- * ถ้าไม่ตั้งค่า จะ fallback ไปที่ NEXT_PUBLIC_LINE_OA_URL แบบธรรมดา
+ * ใช้ NEXT_PUBLIC_LINE_OA_ID เป็นแหล่งข้อมูลหลักเพียงที่เดียว
+ * แล้วประกอบ URL เอาเอง
+ *
+ * ทำไมถึงเปลี่ยนมาเป็นแบบนี้ (6 ต.ค. 2026):
+ * เดิมมีตัวแปร 2 ตัว (OA_ID กับ OA_URL) ที่ต้องชี้ไปบัญชีเดียวกัน
+ * ตอนย้ายจากไลน์ส่วนตัวมาเป็น OA แก้ไปแค่ตัวเดียว
+ * ปุ่มบนเว็บเลยพาลูกค้าไปไลน์ส่วนตัวต่ออีกพักใหญ่กว่าจะรู้ตัว
+ *
+ * NEXT_PUBLIC_LINE_OA_URL ยังรองรับอยู่ แต่ใช้เป็นตัวสำรองเท่านั้น
+ * (เผื่อวันหลังใช้ลิงก์รูปแบบอื่น เช่น lin.ee/xxxx)
+ *
+ * รูปแบบลิงก์ที่ LINE รองรับ:
+ *   https://line.me/R/ti/p/@xxxxx            -> แอดเพื่อนเฉย ๆ
+ *   https://line.me/R/oaMessage/@xxxxx/?TEXT -> แอดเพื่อน + พิมพ์ข้อความให้อัตโนมัติ
  */
-export function buildLineUrl(message?: string): string {
-  const oaId = process.env.NEXT_PUBLIC_LINE_OA_ID;
-  const fallbackUrl = process.env.NEXT_PUBLIC_LINE_OA_URL ?? "https://line.me/";
 
-  if (oaId && message) {
-    return `https://line.me/R/oaMessage/${encodeURIComponent(oaId)}/?${encodeURIComponent(message)}`;
+/** คืน LINE ID ที่ตั้งค่าไว้ เติม @ ให้อัตโนมัติถ้าลืมใส่ */
+function getOaId(): string {
+  const raw = process.env.NEXT_PUBLIC_LINE_OA_ID?.trim();
+  if (!raw) return "";
+  return raw.startsWith("@") ? raw : `@${raw}`;
+}
+
+export function buildLineUrl(message?: string): string {
+  const oaId = getOaId();
+
+  if (oaId) {
+    return message
+      ? `https://line.me/R/oaMessage/${encodeURIComponent(oaId)}/?${encodeURIComponent(message)}`
+      : `https://line.me/R/ti/p/${encodeURIComponent(oaId)}`;
   }
-  return fallbackUrl;
+
+  // ไม่ได้ตั้ง OA_ID -> ใช้ URL ที่ตั้งไว้ตรง ๆ
+  return process.env.NEXT_PUBLIC_LINE_OA_URL ?? "https://line.me/";
+}
+
+/** LINE ID ไว้โชว์บนหน้าเว็บ ว่างได้ถ้ายังไม่ได้ตั้งค่า */
+export function getLineOaId(): string {
+  return getOaId();
 }
 
 export function buildBookingMessage(roomName: string, checkIn?: Date, checkOut?: Date): string {
